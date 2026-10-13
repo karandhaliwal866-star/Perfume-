@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura & Essence — Luxury Perfume Vault</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            400: '#d4af37',
+                            500: '#c5a059',
+                            600: '#aa823d',
+                            700: '#8c672b',
+                        },
+                        dark: {
+                            900: '#0a0a0a',
+                            800: '#121212',
+                            700: '#1a1a1a',
+                            600: '#262626'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body class="bg-dark-900 text-gray-100 font-sans antialiased selection:bg-gold-500 selection:text-dark-900" 
+      x-data="perfumeApp()">
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-gradient-to-r from-gold-700 via-gold-500 to-gold-700 text-dark-900 text-xs font-semibold py-2 px-4 text-center tracking-widest uppercase">
+        ✨ Complimentary Global Shipping on Orders Over $150 &nbsp;|&nbsp; Use code <span class="underline">LUXE20</span> for 20% off
+    </div>
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-40 bg-dark-900/90 backdrop-blur-md border-b border-dark-600 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center space-x-3 group">
+                <div class="w-10 h-10 rounded-full border border-gold-500 flex items-center justify-center bg-gold-500/10 group-hover:bg-gold-500/20 transition">
+                    <i class="fa-solid fa-droplet text-gold-400 text-lg"></i>
+                </div>
+                <div>
+                    <span class="font-serif text-2xl tracking-wider text-white font-bold">AURA & ESSENCE</span>
+                    <span class="block text-[10px] tracking-[0.3em] text-gold-400 uppercase">Haute Parfumerie</span>
+                </div>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium tracking-wide">
+                <a href="#collection" class="text-gray-300 hover:text-gold-400 transition">Collection</a>
+                <a href="#finder" class="text-gray-300 hover:text-gold-400 transition">Perfume Finder</a>
+                <a href="#add-perfume" class="text-gray-300 hover:text-gold-400 transition">Contribute</a>
+                <a href="#about" class="text-gray-300 hover:text-gold-400 transition">About House</a>
+            </nav>
+
+            <!-- Actions (Wishlist & Mobile Menu Toggle) -->
+            <div class="flex items-center space-x-4">
+                <!-- Wishlist Button -->
+                <button @click="isWishlistOpen = true" class="relative p-2.5 rounded-full bg-dark-800 border border-dark-600 hover:border-gold-500 transition text-gray-300 hover:text-gold-400">
+                    <i class="fa-regular fa-heart text-lg"></i>
+                    <span x-show="wishlist.length > 0" x-text="wishlist.length" class="absolute -top-1 -right-1 bg-gold-500 text-dark-900 font-bold text-[10px] w-5 h-5 rounded-full flex items-center justify-center"></span>
+                </button>
+
+                <!-- Mobile Menu Button -->
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden p-2 text-gray-300 hover:text-gold-400">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Nav Menu -->
+        <div x-show="mobileMenuOpen" @click.away="mobileMenuOpen = false" class="md:hidden bg-dark-800 border-b border-dark-600 px-6 py-4 space-y-3">
+            <a href="#collection" @click="mobileMenuOpen = false" class="block text-gray-300 hover:text-gold-400 py-1">Collection</a>
+            <a href="#finder" @click="mobileMenuOpen = false" class="block text-gray-300 hover:text-gold-400 py-1">Perfume Finder</a>
+            <a href="#add-perfume" @click="mobileMenuOpen = false" class="block text-gray-300 hover:text-gold-400 py-1">Contribute</a>
+            <a href="#about" @click="mobileMenuOpen = false" class="block text-gray-300 hover:text-gold-400 py-1">About House</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-[75vh] flex items-center justify-center overflow-hidden bg-gradient-to-b from-dark-800 to-dark-900 px-4 py-20">
+        <div class="absolute inset-0 opacity-20 bg-[radial-gradient(#d4af37_1px,transparent_1px)] [background-size:24px_24px]"></div>
+        <div class="relative max-w-4xl mx-auto text-center space-y-8">
+            <span class="inline-block py-1 px-4 rounded-full bg-gold-500/10 border border-gold-500/30 text-gold-400 text-xs tracking-[0.25em] uppercase font-semibold">
+                The Art of Olfactory Elegance
+            </span>
+            <h1 class="font-serif text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-white leading-tight">
+                Discover Your Signature <span class="text-transparent bg-clip-text bg-gradient-to-r from-gold-400 via-gold-500 to-yellow-200">Aura</span>
+            </h1>
+            <p class="text-gray-400 text-lg sm:text-xl max-w-2xl mx-auto font-light leading-relaxed">
+                Explore an exclusive curation of rare extracts, timeless flacons, and modern masterclass fragrances crafted for the discerning connoisseur.
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+                <a href="#collection" class="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-gold-500 to-gold-600 text-dark-900 font-bold rounded-full hover:brightness-110 transition shadow-lg shadow-gold-500/20 tracking-wider uppercase text-sm">
+                    Explore Collection
+                </a>
+                <a href="#finder" class="w-full sm:w-auto px-8 py-4 bg-dark-800 border border-gold-500/50 text-gold-400 font-semibold rounded-full hover:bg-gold-500/10 transition tracking-wider uppercase text-sm">
+                    Take Fragrance Quiz
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content & Filtering Section -->
+    <main id="collection" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        
+        <!-- Section Header & Controls -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6 border-b border-dark-600 pb-8">
+            <div>
+                <span class="text-gold-400 text-xs tracking-[0.2em] uppercase font-semibold">Curated Catalog</span>
+                <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white mt-1">The Fragrance Vault</h2>
+            </div>
+            
+            <!-- Search & Sort -->
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+                <!-- Search Input -->
+                <div class="relative">
+                    <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                    <input type="text" x-model="searchQuery" placeholder="Search by name, brand, notes..." 
+                           class="w-full sm:w-72 bg-dark-800 border border-dark-600 focus:border-gold-500 text-sm rounded-full pl-11 pr-4 py-3 text-white placeholder-gray-500 focus:outline-none transition">
+                </div>
+                <!-- Sort Dropdown -->
+                <select x-model="sortBy" class="bg-dark-800 border border-dark-600 focus:border-gold-500 text-sm rounded-full px-5 py-3 text-white focus:outline-none transition">
+                    <option value="featured">Sort by: Featured</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="rating">Highest Rated</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Filter Category Tabs -->
+        <div class="flex items-center gap-2 overflow-x-auto pb-4 mb-10 scrollbar-none">
+            <template x-for="cat in categories" :key="cat">
+                <button @click="selectedCategory = cat" 
+                        :class="selectedCategory === cat ? 'bg-gold-500 text-dark-900 font-bold shadow-md shadow-gold-500/20' : 'bg-dark-800 text-gray-300 border border-dark-600 hover:border-gold-500/50'"
+                        class="px-5 py-2.5 rounded-full text-xs tracking-wider uppercase whitespace-nowrap transition"
+                        x-text="cat">
+                </button>
+            </template>
+        </div>
+
+        <!-- Perfume Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <template x-for="perfume in filteredPerfumes" :key="perfume.id">
+                <div class="group bg-dark-800 border border-dark-600 rounded-2xl overflow-hidden hover:border-gold-500/60 transition duration-300 flex flex-col justify-between">
+                    <div>
+                        <!-- Card Image Header -->
+                        <div class="relative h-72 bg-dark-700 overflow-hidden flex items-center justify-center p-6">
+                            <div class="absolute inset-0 bg-gradient-to-t from-dark-800 via-transparent to-transparent z-10"></div>
+                            <img :src="perfume.image" :alt="perfume.name" class="h-full object-contain group-hover:scale-105 transition duration-500 z-0 drop-shadow-2xl">
+                            
+                            <!-- Badge -->
+                            <span class="absolute top-4 left-4 z-20 bg-dark-900/80 backdrop-blur-md border border-dark-600 text-gold-400 text-[10px] tracking-widest uppercase font-semibold px-3 py-1 rounded-full" x-text="perfume.family"></span>
+                            
+                            <!-- Wishlist Toggle -->
+                            <button @click="toggleWishlist(perfume.id)" class="absolute top-4 right-4 z-20 w-9 h-9 rounded-full bg-dark-900/80 backdrop-blur-md border border-dark-600 flex items-center justify-center text-gray-300 hover:text-gold-400 transition">
+                                <i :class="isInWishlist(perfume.id) ? 'fa-solid fa-heart text-gold-500' : 'fa-regular fa-heart'"></i>
+                            </button>
+                        </div>
+
+                        <!-- Card Body -->
+                        <div class="p-6 space-y-3">
+                            <div class="flex items-center justify-between text-xs text-gray-400">
+                                <span class="uppercase tracking-widest font-medium text-gold-500" x-text="perfume.brand"></span>
+                                <div class="flex items-center space-x-1 text-amber-400">
+                                    <i class="fa-solid fa-star text-xs"></i>
+                                    <span class="text-gray-300 font-semibold" x-text="perfume.rating"></span>
+                                </div>
+                            </div>
+                            <h3 class="font-serif text-2xl font-bold text-white group-hover:text-gold-400 transition" x-text="perfume.name"></h3>
+                            <p class="text-gray-400 text-xs line-clamp-2 leading-relaxed" x-text="perfume.description"></p>
+                            
+                            <!-- Notes preview -->
+                            <div class="pt-2 flex flex-wrap gap-1.5">
+                                <template x-for="note in perfume.topNotes.slice(0, 3)" :key="note">
+                                    <span class="text-[10px] bg-dark-700 border border-dark-600 text-gray-300 px-2.5 py-1 rounded-md" x-text="note"></span>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card Footer -->
+                    <div class="px-6 pb-6 pt-2 flex items-center justify-between border-t border-dark-700/60 mt-4">
+                        <div>
+                            <span class="text-[10px] text-gray-400 uppercase tracking-widest block">Price</span>
+                            <span class="font-serif text-xl font-bold text-white" x-text="'$' + perfume.price"></span>
+                        </div>
+                        <button @click="openModal(perfume)" class="px-5 py-2.5 bg-dark-700 hover:bg-gold-500 hover:text-dark-900 border border-dark-600 hover:border-gold-500 text-xs font-bold uppercase tracking-wider rounded-xl transition">
+                            View Details
+                        </button>
+                    </div>
+                </div>
+            </template>
+        </div>
+
+        <!-- Empty State -->
+        <div x-show="filteredPerfumes.length === 0" class="text-center py-20 bg-dark-800 rounded-3xl border border-dark-600 mt-8">
+            <i class="fa-solid fa-bottle-droplet text-4xl text-gray-500 mb-4"></i>
+            <h3 class="font-serif text-2xl font-bold text-white">No fragrances found</h3>
+            <p class="text-gray-400 text-sm mt-2">Try adjusting your search filters or add a custom perfume below.</p>
+        </div>
+    </main>
+
+    <!-- Perfume Detail Modal -->
+    <div x-show="isModalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-dark-900/80 backdrop-blur-md" x-cloak>
+        <div @click.away="closeModal()" class="bg-dark-800 border border-dark-600 rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative">
+            <button @click="closeModal()" class="absolute top-6 right-6 z-10 w-10 h-10 rounded-full bg-dark-700 border border-dark-600 flex items-center justify-center text-gray-400 hover:text-white transition">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <template x-if="activePerfume">
+                <div class="p-6 sm:p-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div class="bg-dark-900/60 rounded-2xl p-8 flex items-center justify-center border border-dark-700 h-80">
+                        <img :src="activePerfume.image" :alt="activePerfume.name" class="max-h-full object-contain drop-shadow-2xl">
+                    </div>
+                    <div class="space-y-6">
+                        <div>
+                            <span class="text-gold-400 text-xs uppercase tracking-widest font-semibold" x-text="activePerfume.brand + ' • ' + activePerfume.family"></span>
+                            <h2 class="font-serif text-3xl font-bold text-white mt-1" x-text="activePerfume.name"></h2>
+                            <p class="text-gray-400 text-sm mt-2 leading-relaxed" x-text="activePerfume.description"></p>
+                        </div>
+
+                        <!-- Notes Pyramid -->
+                        <div class="space-y-3 bg-dark-900/50 p-4 rounded-xl border border-dark-700">
+                            <h4 class="text-xs uppercase tracking-widest font-bold text-gold-400">Olfactory Pyramid</h4>
+                            <div class="text-xs space-y-2">
+                                <div><strong class="text-gray-300">Top Notes:</strong> <span class="text-gray-400" x-text="activePerfume.topNotes.join(', ')"></span></div>
+                                <div><strong class="text-gray-300">Heart Notes:</strong> <span class="text-gray-400" x-text="activePerfume.heartNotes.join(', ')"></span></div>
+                                <div><strong class="text-gray-300">Base Notes:</strong> <span class="text-gray-400" x-text="activePerfume.baseNotes.join(', ')"></span></div>
+                            </div>
+                        </div>
+
+                        <!-- Attributes -->
+                        <div class="grid grid-cols-2 gap-4 text-xs">
+                            <div class="bg-dark-900/50 p-3 rounded-xl border border-dark-700">
+                                <span class="text-gray-400 block uppercase tracking-wider">Longevity</span>
+                                <span class="font-bold text-white text-sm mt-1 block" x-text="activePerfume.longevity"></span>
+                            </div>
+                            <div class="bg-dark-900/50 p-3 rounded-xl border border-dark-700">
+                                <span class="text-gray-400 block uppercase tracking-wider">Sillage</span>
+                                <span class="font-bold text-white text-sm mt-1 block" x-text="activePerfume.sillage"></span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between pt-4 border-t border-dark-700">
+                            <div>
+                                <span class="text-xs text-gray-400 uppercase tracking-widest block">Price</span>
+                                <span class="font-serif text-2xl font-bold text-white" x-text="'$' + activePerfume.price"></span>
+                            </div>
+                            <button @click="toggleWishlist(activePerfume.id)" class="px-6 py-3 bg-gold-500 hover:bg-gold-600 text-dark-900 font-bold uppercase tracking-wider text-xs rounded-xl transition flex items-center space-x-2">
+                                <i :class="isInWishlist(activePerfume.id) ? 'fa-solid fa-heart' : 'fa-regular fa-heart'"></i>
+                                <span x-text="isInWishlist(activePerfume.id) ? 'In Wishlist' : 'Add to Wishlist'"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+
+    <!-- Perfume Finder Quiz Section -->
+    <section id="finder" class="bg-dark-800 border-y border-dark-600 py-20 px-4 sm:px-6 lg:px-8 my-16">
+        <div class="max-w-3xl mx-auto text-center space-y-6">
+            <span class="text-gold-400 text-xs tracking-[0.25em] uppercase font-semibold">Interactive Wizard</span>
+            <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white">Find Your Ideal Scent</h2>
+            <p class="text-gray-400 text-sm max-w-xl mx-auto">Answer 2 quick questions to let our recommendation engine match your mood.</p>
+
+            <!-- Quiz Card -->
+            <div class="bg-dark-900 border border-dark-600 rounded-3xl p-8 sm:p-10 text-left mt-8">
+                <!-- Step 1: Vibe -->
+                <div x-show="quizStep === 1">
+                    <h3 class="font-serif text-xl font-bold text-white mb-6">1. What is your preferred occasion or mood?</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <template x-for="vibe in quizVibes" :key="vibe.value">
+                            <button @click="quizData.vibe = vibe.value; quizStep = 2" 
+                                    class="p-4 rounded-2xl border border-dark-600 hover:border-gold-500 bg-dark-800 text-left transition group">
+                                <span class="font-bold text-whi
